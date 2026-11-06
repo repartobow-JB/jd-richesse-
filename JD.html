@@ -1,0 +1,900 @@
+<!-- index.html : JD RICHESSE CLINIC Agency Promotion Price List (Interactive Web App) -->
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>JD RICHESSE CLINIC - Promotion Price List (Agency)</title>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --panel:#f7f8fb;
+      --panel2:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --shadow: 0 10px 30px rgba(17,24,39,.06);
+      --brand:#2563eb;
+      --brand2:#1d4ed8;
+      --chip:#eff6ff;
+      --chipText:#1d4ed8;
+      --ok:#16a34a;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:var(--bg);
+      line-height:1.45;
+    }
+    header{
+      position:sticky; top:0; z-index:20;
+      background:rgba(255,255,255,.86);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--border);
+    }
+    .wrap{max-width:1200px;margin:0 auto;padding:18px 16px}
+    .topbar{
+      display:flex; gap:12px; align-items:flex-start; justify-content:space-between;
+    }
+    .title{
+      display:flex; flex-direction:column; gap:6px;
+      min-width: 280px;
+    }
+    h1{
+      margin:0;
+      font-size:18px;
+      letter-spacing:.2px;
+    }
+    .sub{
+      color:var(--muted); font-size:12.5px;
+    }
+
+    .controls{
+      flex:1;
+      display:grid;
+      grid-template-columns: 1.4fr 0.9fr 0.9fr;
+      gap:10px;
+      align-items:start;
+      margin-top:2px;
+    }
+    @media (max-width: 980px){
+      .topbar{flex-direction:column}
+      .controls{grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px){
+      .controls{grid-template-columns: 1fr;}
+    }
+
+    .field{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:10px 12px;
+    }
+    .field label{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+    input[type="text"], select{
+      width:100%;
+      border:none;
+      outline:none;
+      background:transparent;
+      font-size:14px;
+      color:var(--text);
+    }
+    select option{color:#111827}
+    .actionsRow{
+      display:flex; gap:8px; justify-content:flex-end; align-items:center;
+      margin-top:10px;
+    }
+    .btn{
+      border:1px solid var(--border);
+      background:#fff;
+      border-radius:10px;
+      padding:10px 12px;
+      font-size:13px;
+      cursor:pointer;
+      transition:.15s ease;
+      box-shadow: 0 6px 18px rgba(17,24,39,.04);
+    }
+    .btn:hover{transform: translateY(-1px)}
+    .btn.primary{
+      border-color:transparent;
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      color:#fff;
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      background:var(--chip);
+      color:var(--chipText);
+      border:1px solid rgba(37,99,235,.18);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12.5px;
+      font-weight:600;
+      white-space:nowrap;
+    }
+
+    main{padding:18px 0 40px}
+    .grid{
+      display:grid;
+      grid-template-columns: 320px 1fr;
+      gap:14px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .grid{grid-template-columns: 1fr}
+    }
+
+    .sidebar{
+      position:sticky; top:92px;
+      align-self:start;
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:14px;
+      box-shadow:var(--shadow);
+      padding:14px;
+    }
+    @media (max-width: 980px){
+      .sidebar{position:relative; top:auto}
+    }
+    .sideTitle{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin-bottom:10px;
+    }
+    .sideTitle b{font-size:13.5px}
+    .note{
+      color:var(--muted);
+      font-size:12.5px;
+      margin:6px 0 12px 0;
+    }
+
+    .pageList{
+      display:flex; flex-wrap:wrap; gap:8px;
+      margin-top:8px;
+    }
+    .chip{
+      border:1px solid rgba(37,99,235,.18);
+      background:#fff;
+      border-radius:999px;
+      padding:8px 10px;
+      font-size:12.5px;
+      cursor:pointer;
+      user-select:none;
+      transition:.15s ease;
+    }
+    .chip.active{
+      background: linear-gradient(135deg, rgba(37,99,235,.14), rgba(29,78,216,.10));
+      border-color: rgba(37,99,235,.35);
+      color:var(--brand2);
+      font-weight:700;
+    }
+
+    .content{
+      background:transparent;
+      min-height: 400px;
+    }
+    .panel{
+      background:var(--panel2);
+      border:1px solid var(--border);
+      border-radius:14px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .panelHead{
+      padding:14px 14px 10px 14px;
+      border-bottom:1px solid var(--border);
+      background: linear-gradient(180deg, #ffffff, #fbfbfd);
+      display:flex; gap:12px; align-items:flex-start; justify-content:space-between;
+    }
+    .panelHead h2{
+      margin:0;
+      font-size:14.5px;
+    }
+    .meta{
+      color:var(--muted);
+      font-size:12.5px;
+      margin-top:6px;
+    }
+    .tableWrap{overflow:auto; max-height: 70vh}
+    table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      font-size:13px;
+      min-width: 760px;
+    }
+    th, td{
+      padding:10px 12px;
+      border-bottom:1px solid var(--border);
+      vertical-align:top;
+      text-align:left;
+    }
+    th{
+      position:sticky; top:0;
+      background:#fff;
+      z-index:2;
+      font-size:12.5px;
+      color:var(--muted);
+      font-weight:700;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    tr:hover td{
+      background:#fafcff;
+    }
+    td .muted{color:var(--muted); font-size:12px}
+    .price{
+      font-weight:800;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .price.full{color:#111827}
+    .price.promo{color:var(--brand2)}
+    .pill{
+      display:inline-flex; align-items:center; gap:6px;
+      background:#f3f4f6;
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:12px;
+      color:var(--muted);
+      margin-top:6px;
+    }
+
+    .empty{
+      padding:26px 16px;
+      color:var(--muted);
+      text-align:center;
+    }
+
+    .footerNote{
+      margin-top:12px;
+      color:var(--muted);
+      font-size:12.5px;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12px; padding:2px 6px;
+      border:1px solid var(--border);
+      border-bottom-width:2px;
+      border-radius:7px;
+      background:#fff;
+      color:#374151;
+      white-space:nowrap;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="title">
+        <h1>JD RICHESSE CLINIC — Agency Promotion Price List</h1>
+        <div class="sub">
+          ราคาจากหน้าโปรโมชัน (KRW) <b>ก่อน VAT 10%</b> | ค้นหา/กรองได้ตามหน้าและหมวดโปรแกรม
+        </div>
+        <div class="footerNote">
+          ทิป: กด <span class="kbd">Ctrl</span> + <span class="kbd">K</span> เพื่อโฟกัสช่องค้นหา
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="field">
+          <label>ค้นหาด้วยคำสำคัญ</label>
+          <input id="search" type="text" placeholder="เช่น Ulthera, Botox, Juvelook, Rejuran, Thread, LDM..." />
+        </div>
+        <div class="field">
+          <label>กรองตามประเภท</label>
+          <select id="category">
+            <option value="__all__">ทั้งหมด</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>กรองตามประเภทโปรโมชัน</label>
+          <select id="sourceType">
+            <option value="__all__">ทุกหน้า (Standard/Monthly/Event)</option>
+          </select>
+        </div>
+
+        <div class="actionsRow" style="grid-column: 1 / -1;">
+          <span class="badge" id="countBadge">รายการ: 0</span>
+          <button class="btn" id="btnReset">ล้างตัวกรอง</button>
+          <button class="btn primary" id="btnExport">Export (CSV)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="grid">
+      <aside class="sidebar">
+        <div class="sideTitle">
+          <b>เลือกหน้าโปรโมชัน</b>
+          <span class="muted" style="color:var(--muted);font-size:12px" id="activePageLabel">ทั้งหมด</span>
+        </div>
+        <div class="note">
+          แสดงเฉพาะรายการที่มีข้อมูลราคาในชุดข้อมูลนี้
+          (รายการที่หน้าเดียวกันมีหลายหมวดอยู่ในตารางเดียว)
+        </div>
+
+        <div class="pageList" id="pageList"></div>
+
+        <div class="footerNote">
+          หมายเหตุ: ราคาและแพ็กเกจอาจเปลี่ยนแปลง ควรยืนยันกับคลินิกก่อนจอง
+        </div>
+      </aside>
+
+      <section class="content">
+        <div class="panel">
+          <div class="panelHead">
+            <div>
+              <h2 id="panelTitle">ผลการค้นหา</h2>
+              <div class="meta" id="panelMeta">กรองตามคำค้น/หน้า/ประเภท</div>
+            </div>
+            <div class="pill" id="activeFiltersPill" title="สรุปเงื่อนไขที่เลือก">
+              <span>Active filters:</span>
+              <b id="activeFiltersText">None</b>
+            </div>
+          </div>
+
+          <div class="tableWrap">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:120px">หน้า</th>
+                  <th style="width:140px">หมวด</th>
+                  <th>รายการ</th>
+                  <th style="width:170px">ราคาเต็ม (KRW)</th>
+                  <th style="width:170px">ราคาโปร (KRW)</th>
+                  <th style="width:220px">หมายเหตุ</th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+
+            <div id="emptyState" class="empty" style="display:none;">
+              ไม่พบข้อมูลตามเงื่อนไขที่เลือก ลองเปลี่ยนคำค้นหรือยกเลิกตัวกรอง
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+  // ====== Data Model ======
+  // source:
+  // - Standard Price List: pages 7–15
+  // - Special Event: page 2 (One-Day Event)
+  // - Monthly Promotion: page 17 (November Specials)
+  // Data is transcribed from the provided content. (KRW, before VAT 10%)
+
+  const data = [
+    // PAGE 2
+    { page: 2, sourceType: "Special Event", category:"One-Day Event", item:"LHA Peel รวม Scalp + Cryo + Mask", fullPrice:200000, promoPrice:125000, note:"" },
+    { page: 2, sourceType: "Special Event", category:"One-Day Event", item:"Heal Fusion Pro + Cryo + Mask", fullPrice:250000, promoPrice:150000, note:"" },
+    { page: 2, sourceType: "Special Event", category:"One-Day Event", item:"น่อง Botox 200U (เกาหลี) + Richesse Cut 20cc", fullPrice:500000, promoPrice:380000, note:"" },
+    { page: 2, sourceType: "Special Event", category:"One-Day Event", item:"Juvelook Volume 10cc + Juvelook Eye 2cc + LDM", fullPrice:1100000, promoPrice:750000, note:"" },
+    { page: 2, sourceType: "Special Event", category:"One-Day Event", item:"Belotero Soft 1cc + Neck Skin Botox Xeomin 3cc + Re2O 6cc", fullPrice:1700000, promoPrice:990000, note:"" },
+    { page: 2, sourceType: "Special Event", category:"One-Day Event", item:"Onda 80KJ + Titanium 60KJ", fullPrice:1750000, promoPrice:950000, note:"" },
+    { page: 2, sourceType: "Special Event", category:"One-Day Event", item:"Density Alpha 600 Shots + Radiesse 2 Vials", fullPrice:5000000, promoPrice:2590000, note:"" },
+
+    // PAGE 3
+    { page: 3, sourceType: "Standard Price List", category:"Toning Package", item:"Enlighten Pico + Excel V Plus 3 Modes + LDM 6 นาที + Richesse Booster + Sheet Mask (10 ครั้ง)", fullPrice:null, promoPrice:990000, note:"โปรแกรม Toning 8 ครั้งมีรายละเอียด แต่ไม่มีราคาในชุดข้อมูลที่ดึงได้" },
+
+    // PAGE 7
+    { page: 7, sourceType: "Standard Price List", category:"Wrinkle Botox", item:"Wondertox", fullPrice:null, promoPrice:27000, note:"บริเวณ: หน้าผาก/ระหว่างคิ้ว/รอบดวงตา/สันจมูก/คาง" },
+    { page: 7, sourceType: "Standard Price List", category:"Wrinkle Botox", item:"Coretox", fullPrice:null, promoPrice:41000, note:"บริเวณ: หน้าผาก/ระหว่างคิ้ว/รอบดวงตา/สันจมูก/คาง" },
+    { page: 7, sourceType: "Standard Price List", category:"Wrinkle Botox", item:"Xeomin", fullPrice:null, promoPrice:89000, note:"บริเวณ: หน้าผาก/ระหว่างคิ้ว/รอบดวงตา/สันจมูก/คาง" },
+    { page: 7, sourceType: "Standard Price List", category:"Wrinkle Botox", item:"Allergan", fullPrice:null, promoPrice:109000, note:"บริเวณ: หน้าผาก/ระหว่างคิ้ว/รอบดวงตา/สันจมูก/คาง" },
+
+    { page: 7, sourceType: "Standard Price List", category:"Botox (Nose/Corner/Gummy)", item:"Wondertox", fullPrice:null, promoPrice:30000, note:"ปีกจมูก / มุมปาก / Gummy Smile" },
+    { page: 7, sourceType: "Standard Price List", category:"Botox (Nose/Corner/Gummy)", item:"Coretox", fullPrice:null, promoPrice:59000, note:"ปีกจมูก / มุมปาก / Gummy Smile" },
+    { page: 7, sourceType: "Standard Price List", category:"Botox (Nose/Corner/Gummy)", item:"Xeomin", fullPrice:null, promoPrice:81000, note:"ปีกจมูก / มุมปาก / Gummy Smile" },
+    { page: 7, sourceType: "Standard Price List", category:"Botox (Nose/Corner/Gummy)", item:"Allergan", fullPrice:null, promoPrice:130000, note:"ปีกจมูก / มุมปาก / Gummy Smile" },
+
+    { page: 7, sourceType: "Standard Price List", category:"Botox (Jaw 50U)", item:"Wondertox", fullPrice:null, promoPrice:30000, note:"กราม 50 Units" },
+    { page: 7, sourceType: "Standard Price List", category:"Botox (Jaw 50U)", item:"Coretox", fullPrice:null, promoPrice:59000, note:"กราม 50 Units" },
+    { page: 7, sourceType: "Standard Price List", category:"Botox (Jaw 50U)", item:"Xeomin", fullPrice:null, promoPrice:99000, note:"กราม 50 Units" },
+    { page: 7, sourceType: "Standard Price List", category:"Botox (Jaw 50U)", item:"Allergan", fullPrice:null, promoPrice:170000, note:"กราม 50 Units" },
+
+    { page: 7, sourceType: "Standard Price List", category:"Salivary Gland Botox", item:"Wondertox", fullPrice:null, promoPrice:79000, note:"ฉีดต่อมน้ำลายใต้หู/ใต้กราม" },
+    { page: 7, sourceType: "Standard Price List", category:"Salivary Gland Botox", item:"Coretox", fullPrice:null, promoPrice:99000, note:"ฉีดต่อมน้ำลายใต้หู/ใต้กราม" },
+    { page: 7, sourceType: "Standard Price List", category:"Salivary Gland Botox", item:"Xeomin", fullPrice:null, promoPrice:110000, note:"ฉีดต่อมน้ำลายใต้หู/ใต้กราม" },
+
+    { page: 7, sourceType: "Standard Price List", category:"Skin Botox", item:"V-Tox Wondertox 1cc", fullPrice:null, promoPrice:79000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Skin Botox", item:"Wondertox 2.5cc", fullPrice:null, promoPrice:139000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Skin Botox", item:"Coretox 2.5cc", fullPrice:null, promoPrice:179000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Skin Botox", item:"Xeomin 2.5cc", fullPrice:null, promoPrice:209000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Skin Botox", item:"Allergan 2.5cc", fullPrice:null, promoPrice:460000, note:"" },
+
+    { page: 7, sourceType: "Standard Price List", category:"Neck Skin Botox", item:"Wondertox 3cc", fullPrice:null, promoPrice:149000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Neck Skin Botox", item:"Coretox 3cc", fullPrice:null, promoPrice:189000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Neck Skin Botox", item:"Xeomin 3cc", fullPrice:null, promoPrice:219000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Neck Skin Botox", item:"Allergan 3cc", fullPrice:null, promoPrice:280000, note:"" },
+
+    { page: 7, sourceType: "Standard Price List", category:"Body Botox", item:"Wondertox 100U", fullPrice:null, promoPrice:79000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Body Botox", item:"Wondertox 200U", fullPrice:null, promoPrice:130000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Body Botox", item:"Wondertox 300U", fullPrice:null, promoPrice:177000, note:"" },
+
+    { page: 7, sourceType: "Standard Price List", category:"Body Botox", item:"Coretox 100U", fullPrice:null, promoPrice:99000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Body Botox", item:"Coretox 200U", fullPrice:null, promoPrice:160000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Body Botox", item:"Coretox 300U", fullPrice:null, promoPrice:207000, note:"" },
+
+    { page: 7, sourceType: "Standard Price List", category:"Body Botox", item:"Xeomin 100U", fullPrice:null, promoPrice:170000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Body Botox", item:"Xeomin 200U", fullPrice:null, promoPrice:290000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Body Botox", item:"Xeomin 300U", fullPrice:null, promoPrice:410000, note:"" },
+
+    { page: 7, sourceType: "Standard Price List", category:"Body Botox", item:"Allergan 100U", fullPrice:null, promoPrice:400000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Body Botox", item:"Allergan 200U", fullPrice:null, promoPrice:700000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Body Botox", item:"Allergan 300U", fullPrice:null, promoPrice:980000, note:"" },
+
+    { page: 7, sourceType: "Standard Price List", category:"Filler (Face 1cc)", item:"Richesse (เกาหลี) 1cc", fullPrice:null, promoPrice:150000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Filler (Face 1cc)", item:"Belotero 1cc", fullPrice:null, promoPrice:270000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Filler (Face 1cc)", item:"Juvederm 1cc", fullPrice:null, promoPrice:350000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Filler (Face 1cc)", item:"Restylane 1cc", fullPrice:null, promoPrice:350000, note:"" },
+
+    { page: 7, sourceType: "Standard Price List", category:"Filler (Under-eye)", item:"Richesse 1cc", fullPrice:null, promoPrice:130000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Filler (Under-eye)", item:"Belotero 1cc", fullPrice:null, promoPrice:290000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Filler (Under-eye)", item:"Juvederm 1cc", fullPrice:null, promoPrice:330000, note:"" },
+    { page: 7, sourceType: "Standard Price List", category:"Filler (Under-eye)", item:"Restylane 1cc", fullPrice:null, promoPrice:330000, note:"" },
+
+    { page: 7, sourceType: "Standard Price List", category:"Filler (Glabellar)", item:"Richesse 1cc", fullPrice:null, promoPrice:200000, note:"ร่องระหว่างคิ้ว" },
+    { page: 7, sourceType: "Standard Price List", category:"Filler (Glabellar)", item:"Belotero 1cc", fullPrice:null, promoPrice:350000, note:"ร่องระหว่างคิ้ว" },
+    { page: 7, sourceType: "Standard Price List", category:"Filler (Glabellar)", item:"Juvederm 1cc", fullPrice:null, promoPrice:390000, note:"ร่องระหว่างคิ้ว" },
+    { page: 7, sourceType: "Standard Price List", category:"Filler (Glabellar)", item:"Restylane 1cc", fullPrice:null, promoPrice:390000, note:"ร่องระหว่างคิ้ว" },
+
+    { page: 7, sourceType: "Standard Price List", category:"Filler (Nose)", item:"Restylane 1cc", fullPrice:null, promoPrice:420000, note:"" },
+
+    // PAGE 8
+    { page: 8, sourceType: "Standard Price List", category:"Ulthera Prime", item:"100 Shots", fullPrice:500000, promoPrice:400000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Ulthera Prime", item:"300 Shots", fullPrice:1350000, promoPrice:1050000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Ulthera Prime", item:"400 Shots", fullPrice:2000000, promoPrice:1400000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Ulthera Prime", item:"600 Shots", fullPrice:3000000, promoPrice:2100000, note:"" },
+
+    { page: 8, sourceType: "Standard Price List", category:"Thermage FLX", item:"300 Shots", fullPrice:1650000, promoPrice:1150000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Thermage FLX", item:"600 Shots", fullPrice:3300000, promoPrice:2050000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Thermage FLX", item:"900 Shots", fullPrice:4700000, promoPrice:2790000, note:"" },
+
+    { page: 8, sourceType: "Standard Price List", category:"Thermage Eye", item:"225 Shots", fullPrice:null, promoPrice:1050000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Thermage Eye", item:"450 Shots", fullPrice:null, promoPrice:1790000, note:"" },
+
+    { page: 8, sourceType: "Standard Price List", category:"Density", item:"Density Alpha 300 Shots", fullPrice:null, promoPrice:950000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Density", item:"Density Alpha 600 Shots", fullPrice:null, promoPrice:1800000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Density", item:"Density High 300 Shots", fullPrice:null, promoPrice:750000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Density", item:"Density High 600 Shots", fullPrice:null, promoPrice:1350000, note:"" },
+
+    { page: 8, sourceType: "Standard Price List", category:"Titanium", item:"60KJ", fullPrice:null, promoPrice:590000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Titanium", item:"80KJ", fullPrice:null, promoPrice:690000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Titanium", item:"100KJ", fullPrice:null, promoPrice:790000, note:"มีแพ็กเกจ 3 ครั้งเพิ่มเติมตามที่ระบุในเว็บไซต์" },
+
+    { page: 8, sourceType: "Standard Price List", category:"Onda", item:"Onda 60KJ", fullPrice:null, promoPrice:430000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Onda", item:"Onda 80KJ", fullPrice:null, promoPrice:570000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Onda", item:"Body Onda 80KJ", fullPrice:null, promoPrice:690000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Onda", item:"Body Onda 120KJ", fullPrice:null, promoPrice:990000, note:"" },
+
+    { page: 8, sourceType: "Standard Price List", category:"Volnewmer", item:"100 Shots", fullPrice:null, promoPrice:120000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Volnewmer", item:"300 Shots", fullPrice:null, promoPrice:320000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Volnewmer", item:"600 Shots", fullPrice:null, promoPrice:690000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Volnewmer", item:"Eye Volnewmer 100 Shots", fullPrice:null, promoPrice:99000, note:"" },
+
+    { page: 8, sourceType: "Standard Price List", category:"Shurink Universe", item:"100 Shots", fullPrice:null, promoPrice:49000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Shurink Universe", item:"300 Shots", fullPrice:null, promoPrice:129000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Shurink Universe", item:"600 Shots", fullPrice:null, promoPrice:230000, note:"" },
+
+    { page: 8, sourceType: "Standard Price List", category:"Thread Lifting", item:"Jamber Thread 1 เส้น", fullPrice:null, promoPrice:99000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Thread Lifting", item:"Jamber Thread 4 เส้น", fullPrice:null, promoPrice:290000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Thread Lifting", item:"Wonder Triple Thread 1 เส้น", fullPrice:null, promoPrice:99000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Thread Lifting", item:"Wonder Triple Thread 4 เส้น", fullPrice:null, promoPrice:290000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Thread Lifting", item:"Double Arm 1 เส้น (เหนียง)", fullPrice:null, promoPrice:200000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Thread Lifting", item:"Double Arm 3 เส้น (เหนียง)", fullPrice:null, promoPrice:450000, note:"" },
+    { page: 8, sourceType: "Standard Price List", category:"Thread Lifting", item:"Jamber Thread 4 เส้น + Richesse Filler 2cc", fullPrice:null, promoPrice:430000, note:"" },
+
+    // PAGE 9 (Skin Booster)
+    { page: 9, sourceType: "Standard Price List", category:"Skin Booster", item:"Elravie Glow 1.5cc", fullPrice:null, promoPrice:99000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Skin Booster", item:"Glow Tox + Skin Botox 1.5cc + 3cc", fullPrice:null, promoPrice:190000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Skin Booster", item:"PDRN Injection 3cc", fullPrice:null, promoPrice:99000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Skin Booster", item:"Rejuran Healer 2cc", fullPrice:null, promoPrice:189000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Skin Booster", item:"Rejuran Healer 4cc", fullPrice:null, promoPrice:330000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Skin Booster", item:"Rejuran HB 1cc", fullPrice:null, promoPrice:190000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Skin Booster", item:"Rejuran HB 2cc", fullPrice:null, promoPrice:320000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Skin Booster", item:"Rejuran HB 4cc", fullPrice:null, promoPrice:590000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Skin Booster", item:"Rejuran Eye 1cc", fullPrice:null, promoPrice:180000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Skin Booster", item:"Rejuran Eye 2cc", fullPrice:null, promoPrice:290000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Skin Booster", item:"Juvelook Skin 2cc", fullPrice:null, promoPrice:178000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Skin Booster", item:"Juvelook Skin 4cc", fullPrice:null, promoPrice:320000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Skin Booster", item:"Juvelook Volume 5cc", fullPrice:null, promoPrice:350000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Skin Booster", item:"Juvelook Volume + Mirajet 5cc", fullPrice:null, promoPrice:700000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Skin Booster", item:"Juvelook Volume 10cc", fullPrice:null, promoPrice:550000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Skin Booster", item:"Juvelook Eye 2cc", fullPrice:null, promoPrice:270000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Skin Booster", item:"Revive 1cc", fullPrice:null, promoPrice:490000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Skin Booster", item:"Revive + Cryo Care 2cc", fullPrice:null, promoPrice:700000, note:"" },
+
+    // PAGE 9 (Re2O etc.)
+    { page: 9, sourceType: "Standard Price List", category:"Re2O & Other Injectables", item:"Elravie Re2O 6cc", fullPrice:null, promoPrice:590000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Re2O & Other Injectables", item:"Re2O + Full Face Skin Botox 6cc + 2.5cc", fullPrice:null, promoPrice:690000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Re2O & Other Injectables", item:"Re2O + Neck Skin Botox 6cc + 2.5cc", fullPrice:null, promoPrice:690000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Re2O & Other Injectables", item:"Re2O Fine 3cc", fullPrice:null, promoPrice:490000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Re2O & Other Injectables", item:"Hilo Wave 2cc", fullPrice:null, promoPrice:500000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Re2O & Other Injectables", item:"Hilo Wave 4cc", fullPrice:null, promoPrice:700000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Re2O & Other Injectables", item:"Hilo Wave + Re2O 2cc + 6cc", fullPrice:null, promoPrice:900000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Re2O & Other Injectables", item:"Gowoori 5cc", fullPrice:null, promoPrice:570000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Re2O & Other Injectables", item:"Rebornne 6cc", fullPrice:null, promoPrice:450000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Re2O & Other Injectables", item:"Radiesse 1 Vial (3cc)", fullPrice:null, promoPrice:1250000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Re2O & Other Injectables", item:"Ellansé 1cc", fullPrice:null, promoPrice:1100000, note:"" },
+    { page: 9, sourceType: "Standard Price List", category:"Re2O & Other Injectables", item:"Ellansé Heart Line 3cc", fullPrice:null, promoPrice:3200000, note:"" },
+
+    // PAGE 10
+    { page: 10, sourceType: "Standard Price List", category:"Stem Cell", item:"Richesse NovaStem Face 30cc (1 ครั้ง)", fullPrice:null, promoPrice:600000, note:"" },
+    { page: 10, sourceType: "Standard Price List", category:"Stem Cell", item:"Richesse NovaStem Face 30cc (3 ครั้ง)", fullPrice:null, promoPrice:1500000, note:"" },
+    { page: 10, sourceType: "Standard Price List", category:"Stem Cell", item:"Richesse NovaStem Face 60cc (1 ครั้ง)", fullPrice:null, promoPrice:1000000, note:"" },
+    { page: 10, sourceType: "Standard Price List", category:"Stem Cell", item:"Richesse NovaStem Face 60cc (3 ครั้ง)", fullPrice:null, promoPrice:2500000, note:"" },
+    { page: 10, sourceType: "Standard Price List", category:"Stem Cell", item:"Richesse NovaStem Richesse Cell + Re2O (30cc + 1 Vial)", fullPrice:null, promoPrice:1200000, note:"" },
+    { page: 10, sourceType: "Standard Price List", category:"Stem Cell", item:"Richesse NovaStem IV (120cc)", fullPrice:null, promoPrice:1900000, note:"เพิ่ม Hilo Wave 2cc ราคา 440,000 วอน" },
+
+    // PAGE 11
+    { page: 11, sourceType: "Standard Price List", category:"Pigment Laser", item:"ไฝ / Milia / Skin Tag / หูด (ไม่เกิน 2mm)", fullPrice:null, promoPrice:9000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pigment Laser", item:"Melasma Injection", fullPrice:null, promoPrice:60000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pigment Laser", item:"Enlighten Pico Laser + Sheet Mask", fullPrice:null, promoPrice:99000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pigment Laser", item:"Excel V Plus Single Mode + LED + Mask", fullPrice:null, promoPrice:100000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pigment Laser", item:"Dual Excel V Plus + Cryo + Mask", fullPrice:null, promoPrice:160000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pigment Laser", item:"Triple Excel V Plus + LDM + Mask", fullPrice:null, promoPrice:230000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pigment Laser", item:"IPL", fullPrice:null, promoPrice:99000, note:"" },
+
+    { page: 11, sourceType: "Standard Price List", category:"Pigment Laser (Packages)", item:"Enlighten Pico 5 ครั้ง", fullPrice:null, promoPrice:400000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pigment Laser (Packages)", item:"Enlighten Pico 10 ครั้ง", fullPrice:null, promoPrice:750000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pigment Laser (Packages)", item:"Excel V Single 5 ครั้ง", fullPrice:null, promoPrice:450000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pigment Laser (Packages)", item:"Excel V Single 10 ครั้ง", fullPrice:null, promoPrice:800000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pigment Laser (Packages)", item:"Excel V Dual 5 ครั้ง", fullPrice:null, promoPrice:650000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pigment Laser (Packages)", item:"Excel V Dual 10 ครั้ง", fullPrice:null, promoPrice:1100000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pigment Laser (Packages)", item:"Excel V Triple 5 ครั้ง", fullPrice:null, promoPrice:1000000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pigment Laser (Packages)", item:"Excel V Triple 10 ครั้ง", fullPrice:null, promoPrice:1700000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pigment Laser (Packages)", item:"IPL 5 ครั้ง", fullPrice:null, promoPrice:400000, note:"หมายเหตุ: ไฝ/ติ่งเนื้อราคาแตกต่างตามขนาด และทั่วไปไม่มี Touch-up" },
+
+    { page: 11, sourceType: "Standard Price List", category:"Pore & Scar Laser", item:"Pore DeAGE Fractional + Soothing Mask", fullPrice:null, promoPrice:110000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pore & Scar Laser", item:"Pore Diore + Richesse Booster + LDM + Mask", fullPrice:null, promoPrice:180000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pore & Scar Laser", item:"Potenza Pore Tip + Cryo 1 ครั้ง", fullPrice:null, promoPrice:250000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pore & Scar Laser", item:"Potenza Pore Tip + Cryo 3 ครั้ง", fullPrice:null, promoPrice:590000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pore & Scar Laser", item:"Potenza Pumping Tip + Juvelook Skin 4cc + Cryo 1 ครั้ง", fullPrice:null, promoPrice:370000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pore & Scar Laser", item:"Potenza Pumping Tip + Juvelook Skin 4cc + Cryo 3 ครั้ง", fullPrice:null, promoPrice:950000, note:"" },
+
+    { page: 11, sourceType: "Standard Price List", category:"Pore DeAGE (Packages)", item:"3 ครั้ง", fullPrice:null, promoPrice:270000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pore DeAGE (Packages)", item:"5 ครั้ง", fullPrice:null, promoPrice:395000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pore Diore (Packages)", item:"3 ครั้ง", fullPrice:null, promoPrice:450000, note:"" },
+    { page: 11, sourceType: "Standard Price List", category:"Pore Diore (Packages)", item:"5 ครั้ง", fullPrice:null, promoPrice:650000, note:"" },
+
+    // PAGE 12
+    { page: 12, sourceType: "Standard Price List", category:"Fat-dissolving Injection", item:"Richesse Fat Dissolving Injection (Face) 10cc", fullPrice:null, promoPrice:150000, note:"" },
+    { page: 12, sourceType: "Standard Price List", category:"Fat-dissolving Injection", item:"Richesse Fat Dissolving Injection (Body) 20cc", fullPrice:null, promoPrice:400000, note:"" },
+    { page: 12, sourceType: "Standard Price List", category:"Fat-dissolving Injection (Packages)", item:"Face 10cc 3 ครั้ง", fullPrice:null, promoPrice:360000, note:"" },
+    { page: 12, sourceType: "Standard Price List", category:"Fat-dissolving Injection (Packages)", item:"Face 10cc 5 ครั้ง", fullPrice:null, promoPrice:495000, note:"" },
+    { page: 12, sourceType: "Standard Price List", category:"Fat-dissolving Injection (Packages)", item:"Body 20cc 3 ครั้ง", fullPrice:null, promoPrice:690000, note:"" },
+    { page: 12, sourceType: "Standard Price List", category:"Fat-dissolving Injection (Packages)", item:"Body 20cc 5 ครั้ง", fullPrice:null, promoPrice:990000, note:"" },
+
+    // PAGE 13
+    { page: 13, sourceType: "Standard Price List", category:"Tattoo Removal", item:"Eyeliner Tattoo Removal (ต่อการทำ)", fullPrice:null, promoPrice:99000, note:"แพ็กเกจ 5 ครั้ง 450,000" },
+    { page: 13, sourceType: "Standard Price List", category:"Tattoo Removal", item:"Eyebrow Tattoo Removal (ต่อการทำ)", fullPrice:null, promoPrice:99000, note:"แพ็กเกจ 5 ครั้ง 450,000" },
+    { page: 13, sourceType: "Standard Price List", category:"Tattoo Removal", item:"Black & White Tattoo 25mm (ต่อการทำ)", fullPrice:null, promoPrice:120000, note:"แพ็กเกจ 5 ครั้ง 490,000" },
+    { page: 13, sourceType: "Standard Price List", category:"Tattoo Removal", item:"Black & White Tattoo 90mm (ต่อการทำ)", fullPrice:null, promoPrice:200000, note:"แพ็กเกจ 5 ครั้ง 890,000" },
+
+    // PAGE 14
+    { page: 14, sourceType: "Standard Price List", category:"Skincare", item:"Full Face Extraction", fullPrice:null, promoPrice:80000, note:"" },
+    { page: 14, sourceType: "Standard Price List", category:"Skincare", item:"Cryo / Iontophoresis / SONO Care", fullPrice:null, promoPrice:59000, note:"" },
+    { page: 14, sourceType: "Standard Price List", category:"Skincare", item:"LDM 6 นาที + Soothing Mask", fullPrice:null, promoPrice:60000, note:"" },
+    { page: 14, sourceType: "Standard Price List", category:"Skincare", item:"LDM 12 นาที + Soothing Mask", fullPrice:null, promoPrice:99000, note:"" },
+    { page: 14, sourceType: "Standard Price List", category:"Skincare", item:"Black Peel", fullPrice:null, promoPrice:60000, note:"" },
+    { page: 14, sourceType: "Standard Price List", category:"Skincare", item:"GA Peel 15%", fullPrice:null, promoPrice:80000, note:"" },
+    { page: 14, sourceType: "Standard Price List", category:"Skincare", item:"GA Peel 30%", fullPrice:null, promoPrice:99000, note:"" },
+    { page: 14, sourceType: "Standard Price List", category:"Skincare", item:"Lhala Peel", fullPrice:null, promoPrice:99000, note:"เพิ่ม 20,000 วอน หากรวม Scalp Treatment" },
+    { page: 14, sourceType: "Standard Price List", category:"Skincare", item:"Water Tox (Exuviance PHA Peel)", fullPrice:null, promoPrice:150000, note:"" },
+    { page: 14, sourceType: "Standard Price List", category:"Skincare", item:"Heal Fusion Pro + Richesse Booster", fullPrice:null, promoPrice:250000, note:"" },
+    { page: 14, sourceType: "Standard Price List", category:"Skincare", item:"Aladdin Peel + Extraction", fullPrice:null, promoPrice:170000, note:"" },
+    { page: 14, sourceType: "Standard Price List", category:"Skincare", item:"Body Aladdin Peel", fullPrice:null, promoPrice:330000, note:"" },
+
+    { page: 14, sourceType: "Standard Price List", category:"Skincare (Packages)", item:"Cryo / Iontophoresis / SONO 5 ครั้ง", fullPrice:null, promoPrice:200000, note:"" },
+    { page: 14, sourceType: "Standard Price List", category:"Skincare (Packages)", item:"Cryo / Iontophoresis / SONO 10 ครั้ง", fullPrice:null, promoPrice:300000, note:"" },
+    { page: 14, sourceType: "Standard Price List", category:"Skincare (Packages)", item:"LDM 6 นาที 5 ครั้ง", fullPrice:null, promoPrice:250000, note:"" },
+    { page: 14, sourceType: "Standard Price List", category:"Skincare (Packages)", item:"LDM 6 นาที 10 ครั้ง", fullPrice:null, promoPrice:390000, note:"" },
+    { page: 14, sourceType: "Standard Price List", category:"Skincare (Packages)", item:"LDM 12 นาที 5 ครั้ง", fullPrice:null, promoPrice:400000, note:"" },
+    { page: 14, sourceType: "Standard Price List", category:"Skincare (Packages)", item:"LDM 12 นาที 10 ครั้ง", fullPrice:null, promoPrice:600000, note:"" },
+
+    { page: 14, sourceType: "Standard Price List", category:"IV Drip", item:"Vitamin IV Drip", fullPrice:null, promoPrice:30000, note:"" },
+    { page: 14, sourceType: "Standard Price List", category:"IV Drip", item:"Glutathione IV Drip", fullPrice:null, promoPrice:30000, note:"" },
+    { page: 14, sourceType: "Standard Price List", category:"IV Drip", item:"Vitamin + Glutathione", fullPrice:null, promoPrice:50000, note:"" },
+
+    // PAGE 15 (Hair Removal)
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Facial)", item:"Upper Lip", fullPrice:null, promoPrice:40000, note:"" },
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Facial)", item:"Chin", fullPrice:null, promoPrice:40000, note:"" },
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Facial)", item:"Upper Lip + Full Chin + Double Chin", fullPrice:null, promoPrice:90000, note:"" },
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Facial)", item:"Full Face", fullPrice:null, promoPrice:175000, note:"" },
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Facial)", item:"Cheeks", fullPrice:null, promoPrice:35000, note:"" },
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Facial)", item:"Front Neck", fullPrice:null, promoPrice:70000, note:"" },
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Facial)", item:"Back of Neck", fullPrice:null, promoPrice:80000, note:"" },
+
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Upper Body)", item:"Underarms", fullPrice:null, promoPrice:25000, note:"" },
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Upper Body)", item:"Upper Arms", fullPrice:null, promoPrice:55000, note:"" },
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Upper Body)", item:"Forearms", fullPrice:null, promoPrice:100000, note:"" },
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Upper Body)", item:"Hands + Fingers", fullPrice:null, promoPrice:45000, note:"" },
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Upper Body)", item:"Full Arms", fullPrice:null, promoPrice:150000, note:"" },
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Upper Body)", item:"Full Abdomen", fullPrice:null, promoPrice:130000, note:"" },
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Upper Body)", item:"Full Back", fullPrice:null, promoPrice:130000, note:"" },
+
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Lower Body)", item:"Lower Legs", fullPrice:null, promoPrice:80000, note:"" },
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Lower Body)", item:"Thighs", fullPrice:null, promoPrice:90000, note:"" },
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Lower Body)", item:"Feet + Toes", fullPrice:null, promoPrice:45000, note:"" },
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Lower Body)", item:"Full Legs", fullPrice:null, promoPrice:200000, note:"ตัวอย่างแพ็กเกจ: 5 ครั้ง 873,000 / 10 ครั้ง 1,490,000 วอน" },
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Lower Body)", item:"Full Buttocks", fullPrice:null, promoPrice:90000, note:"" },
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Lower Body)", item:"Brazilian", fullPrice:null, promoPrice:140000, note:"ตัวอย่างแพ็กเกจ: 5 ครั้ง 573,000 / 10 ครั้ง 890,000 วอน" },
+    { page: 15, sourceType: "Standard Price List", category:"Hair Removal - Men (Lower Body)", item:"Brazilian + Perianal + Perineum", fullPrice:null, promoPrice:230000, note:"" },
+
+    // PAGE 17 (Monthly Specials)
+    { page: 17, sourceType: "Monthly Promotion", category:"November Specials", item:"Ulthera Prime 300 + Richesse Booster", fullPrice:null, promoPrice:950000, note:"" },
+    { page: 17, sourceType: "Monthly Promotion", category:"November Specials", item:"Ulthera 300 + Thermage 600 + Booster", fullPrice:null, promoPrice:2790000, note:"" },
+    { page: 17, sourceType: "Monthly Promotion", category:"November Specials", item:"Hyper Titanium 90KJ + Booster", fullPrice:null, promoPrice:950000, note:"" },
+    { page: 17, sourceType: "Monthly Promotion", category:"November Specials", item:"Onda 80KJ + Booster", fullPrice:null, promoPrice:470000, note:"" },
+    { page: 17, sourceType: "Monthly Promotion", category:"November Specials", item:"Wrinkle Botox 2+1 Wondertox", fullPrice:null, promoPrice:69000, note:"" },
+    { page: 17, sourceType: "Monthly Promotion", category:"November Specials", item:"Wrinkle Botox 2+1 Xeomin", fullPrice:null, promoPrice:119000, note:"" },
+    { page: 17, sourceType: "Monthly Promotion", category:"November Specials", item:"Rejuran Healer 4cc", fullPrice:null, promoPrice:330000, note:"" },
+    { page: 17, sourceType: "Monthly Promotion", category:"November Specials", item:"Juvelook Skin 4cc", fullPrice:null, promoPrice:320000, note:"" },
+    { page: 17, sourceType: "Monthly Promotion", category:"November Specials", item:"Re2O 6cc", fullPrice:null, promoPrice:590000, note:"" },
+    { page: 17, sourceType: "Monthly Promotion", category:"November Specials", item:"Radiesse 2 Vials", fullPrice:null, promoPrice:1800000, note:"" },
+    { page: 17, sourceType: "Monthly Promotion", category:"November Specials", item:"Lhala Peel + Pico Toning + LDM", fullPrice:null, promoPrice:190000, note:"" },
+    { page: 17, sourceType: "Monthly Promotion", category:"November Specials", item:"Body Onda 120KJ", fullPrice:null, promoPrice:950000, note:"" },
+  ];
+
+  // ====== Helpers ======
+  const money = (n) => (n===null || n===undefined) ? "-" : Number(n).toLocaleString("th-TH");
+  const normalize = (s) => (s ?? "").toString().toLowerCase().trim();
+
+  // ====== UI Elements ======
+  const tbody = document.getElementById("tbody");
+  const emptyState = document.getElementById("emptyState");
+  const countBadge = document.getElementById("countBadge");
+
+  const searchEl = document.getElementById("search");
+  const categoryEl = document.getElementById("category");
+  const sourceTypeEl = document.getElementById("sourceType");
+
+  const pageList = document.getElementById("pageList");
+  const activePageLabel = document.getElementById("activePageLabel");
+  const panelTitle = document.getElementById("panelTitle");
+  const panelMeta = document.getElementById("panelMeta");
+  const activeFiltersText = document.getElementById("activeFiltersText");
+
+  const btnReset = document.getElementById("btnReset");
+  const btnExport = document.getElementById("btnExport");
+
+  // ====== State ======
+  let activePage = "__all__";
+
+  // Build category dropdown + page chips
+  function init() {
+    const categories = Array.from(new Set(data.map(d => d.category))).sort((a,b)=>a.localeCompare(b,'th'));
+    // category select
+    for(const c of categories){
+      const opt = document.createElement("option");
+      opt.value = c;
+      opt.textContent = c;
+      categoryEl.appendChild(opt);
+    }
+
+    // source type select
+    const sourceTypes = Array.from(new Set(data.map(d => d.sourceType))).sort((a,b)=>a.localeCompare(b,'th'));
+    for(const t of sourceTypes){
+      const opt = document.createElement("option");
+      opt.value = t;
+      opt.textContent = t;
+      sourceTypeEl.appendChild(opt);
+    }
+
+    // page chips
+    const pages = Array.from(new Set(data.map(d => d.page))).sort((a,b)=>a-b);
+    const allChip = document.createElement("div");
+    allChip.className = "chip active";
+    allChip.dataset.page = "__all__";
+    allChip.textContent = "ทั้งหมด";
+    pageList.appendChild(allChip);
+
+    for(const p of pages){
+      const chip = document.createElement("div");
+      chip.className = "chip";
+      chip.dataset.page = String(p);
+      chip.textContent = `หน้า ${p}`;
+      pageList.appendChild(chip);
+    }
+  }
+
+  function getFiltered() {
+    const q = normalize(searchEl.value);
+    const cat = categoryEl.value;
+    const st = sourceTypeEl.value;
+
+    return data.filter(d => {
+      const matchPage = activePage === "__all__" ? true : String(d.page) === activePage;
+      const matchCat = cat === "__all__" ? true : d.category === cat;
+      const matchST = st === "__all__" ? true : d.sourceType === st;
+
+      if(!matchPage || !matchCat || !matchST) return false;
+
+      if(!q) return true;
+
+      const hay = [
+        d.item, d.category, d.sourceType,
+        `หน้า ${d.page}`, String(d.page)
+      ].join(" | ");
+      return normalize(hay).includes(q);
+    });
+  }
+
+  function render() {
+    const rows = getFiltered();
+
+    tbody.innerHTML = "";
+    emptyState.style.display = rows.length ? "none" : "block";
+
+    // count
+    countBadge.textContent = `รายการ: ${rows.length}`;
+
+    // active filters pill
+    const pieces = [];
+    if(activePage !== "__all__") pieces.push(`หน้า ${activePage}`);
+    if(categoryEl.value !== "__all__") pieces.push(categoryEl.value);
+    if(sourceTypeEl.value !== "__all__") pieces.push(sourceTypeEl.options[sourceTypeEl.selectedIndex].textContent);
+    if(searchEl.value.trim()) pieces.push(`ค้นหา: ${searchEl.value.trim()}`);
+    activeFiltersText.textContent = pieces.length ? pieces.join(" / ") : "None";
+
+    panelTitle.textContent = "ผลการค้นหา";
+    const metaPieces = [];
+    if(activePage !== "__all__") metaPieces.push(`หน้า ${activePage}`);
+    if(categoryEl.value !== "__all__") metaPieces.push(`หมวด: ${categoryEl.value}`);
+    if(sourceTypeEl.value !== "__all__") metaPieces.push(`ประเภท: ${sourceTypeEl.value}`);
+    if(searchEl.value.trim()) metaPieces.push(`คำค้น: ${searchEl.value.trim()}`);
+    panelMeta.textContent = metaPieces.length ? metaPieces.join(" | ") : "กรองตามคำค้น/หน้า/ประเภท";
+
+    for(const d of rows){
+      const tr = document.createElement("tr");
+
+      const tdPage = document.createElement("td");
+      tdPage.textContent = `หน้า ${d.page}`;
+
+      const tdCat = document.createElement("td");
+      tdCat.textContent = d.category;
+
+      const tdItem = document.createElement("td");
+      tdItem.innerHTML = `${escapeHtml(d.item)}${d.note ? `<div class="muted">${escapeHtml(d.note)}</div>` : ""}`;
+
+      const tdFull = document.createElement("td");
+      tdFull.innerHTML = d.fullPrice==null ? `<span class="muted">-</span>` : `<span class="price full">${money(d.fullPrice)}</span>`;
+
+      const tdPromo = document.createElement("td");
+      tdPromo.innerHTML = d.promoPrice==null ? `<span class="muted">-</span>` : `<span class="price promo">${money(d.promoPrice)}</span>`;
+
+      const tdNote = document.createElement("td");
+      tdNote.innerHTML = d.note ? `<span>${escapeHtml(d.note)}</span>` : `<span class="muted">-</span>`;
+
+      tr.appendChild(tdPage);
+      tr.appendChild(tdCat);
+      tr.appendChild(tdItem);
+      tr.appendChild(tdFull);
+      tr.appendChild(tdPromo);
+      tr.appendChild(tdNote);
+
+      tbody.appendChild(tr);
+    }
+  }
+
+  function escapeHtml(str){
+    return (str ?? "").toString()
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  function setActivePage(page){
+    activePage = page;
+
+    // update chips
+    document.querySelectorAll(".chip").forEach(el => {
+      el.classList.toggle("active", el.dataset.page === page);
+    });
+
+    activePageLabel.textContent = page === "__all__" ? "ทั้งหมด" : `หน้า ${page}`;
+    render();
+  }
+
+  function resetFilters(){
+    activePage="__all__";
+    searchEl.value = "";
+    categoryEl.value="__all__";
+    sourceTypeEl.value="__all__";
+
+    // chips
+    document.querySelectorAll(".chip").forEach(el => {
+      el.classList.toggle("active", el.dataset.page === "__all__");
+    });
+    activePageLabel.textContent = "ทั้งหมด";
+    render();
+  }
+
+  function exportCSV(){
+    const rows = getFiltered();
+    const header = ["page","sourceType","category","item","fullPrice","promoPrice","note"];
+    const csv = [
+      header.join(","),
+      ...rows.map(r => [
+        r.page,
+        csvEscape(r.sourceType),
+        csvEscape(r.category),
+        csvEscape(r.item),
+        r.fullPrice ?? "",
+        r.promoPrice ?? "",
+        csvEscape(r.note ?? "")
+      ].join(","))
+    ].join("\n");
+
+    const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    const dt = new Date();
+    const stamp = dt.toISOString().slice(0,19).replaceAll(":","-");
+    a.download = `jd-richesse-agency-pricelist-${stamp}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    URL.revokeObjectURL(url);
+  }
+
+  function csvEscape(s){
+    s = (s ?? "").toString();
+    if(s.includes('"')) s = s.replaceAll('"','""');
+    if(/[,"\n]/.test(s)) s = `"${s}"`;
+    return s;
+  }
+
+  // Events
+  function bindEvents(){
+    searchEl.addEventListener("input", render);
+    categoryEl.addEventListener("change", render);
+    sourceTypeEl.addEventListener("change", render);
+
+    pageList.addEventListener("click", (e)=>{
+      const chip = e.target.closest(".chip");
+      if(!chip) return;
+      setActivePage(chip.dataset.page);
+    });
+
+    btnReset.addEventListener("click", resetFilters);
+    btnExport.addEventListener("click", exportCSV);
+
+    // Ctrl+K focus
+    window.addEventListener("keydown", (e)=>{
+      if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k"){
+        e.preventDefault();
+        searchEl.focus();
+        searchEl.select();
+      }
+    });
+  }
+
+  // Boot
+  init();
+  bindEvents();
+  render();
+</script>
+</body>
+</html>
